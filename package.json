@@ -1,0 +1,67 @@
+{
+  "name": "hak-layerzero-plugin",
+  "version": "1.0.0",
+  "description": "LayerZero omnichain interoperability plugin for the Hedera Agent Kit — enables AI agents to send cross-chain messages and query fees between Hedera and 150+ EVM chains",
+  "type": "module",
+  "author": "Juanma Gomez",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "hedera",
+    "layerzero",
+    "cross-chain",
+    "omnichain",
+    "bridge",
+    "agent-kit",
+    "defi",
+    "plugin",
+    "hbar",
+    "evm",
+    "interoperability"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "biome check src tests",
+    "format": "biome format --write src tests",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "@hashgraph/hedera-agent-kit": ">=1.0.0",
+    "@hiero-ledger/sdk": ">=2.0.0"
+  },
+  "dependencies": {
+    "@layerzerolabs/lz-definitions": "^3.1.0",
+    "@layerzerolabs/lz-v2-utilities": "^3.0.0",
+    "ethers": "^6.13.0",
+    "long": "^5.2.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/long": "^5.0.0",
+    "@types/node": "^22.0.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}
