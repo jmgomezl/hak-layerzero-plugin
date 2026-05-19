@@ -1,10 +1,18 @@
 {
   "name": "hak-layerzero-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "LayerZero omnichain interoperability plugin for the Hedera Agent Kit — enables AI agents to send cross-chain messages and query fees between Hedera and 150+ EVM chains",
   "type": "module",
   "author": "Juanma Gomez",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmgomezl/hak-layerzero-plugin.git"
+  },
+  "homepage": "https://github.com/jmgomezl/hak-layerzero-plugin#readme",
+  "bugs": {
+    "url": "https://github.com/jmgomezl/hak-layerzero-plugin/issues"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -46,8 +54,8 @@
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
-    "@hashgraph/hedera-agent-kit": ">=1.0.0",
-    "@hiero-ledger/sdk": ">=2.0.0"
+    "@hashgraph/hedera-agent-kit": "^4.0.0",
+    "@hiero-ledger/sdk": "^2.84.0"
   },
   "dependencies": {
     "@layerzerolabs/lz-definitions": "^3.1.0",
@@ -57,6 +65,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@hashgraph/hedera-agent-kit": "^4.0.0",
+    "@hiero-ledger/sdk": "^2.84.0",
     "@biomejs/biome": "^1.9.0",
     "@types/long": "^5.0.0",
     "@types/node": "^22.0.0",
