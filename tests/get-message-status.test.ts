@@ -56,7 +56,11 @@ describe("layerzero_get_message_status", () => {
   it("returns INFLIGHT status", async () => {
     mockFetch({
       status: 200,
-      body: { messages: [{ guid: "0xabc", srcTxHash: "0xtx1", srcEid: 30316, dstEid: 30101, status: "INFLIGHT" }] },
+      body: {
+        messages: [
+          { guid: "0xabc", srcTxHash: "0xtx1", srcEid: 30316, dstEid: 30101, status: "INFLIGHT" },
+        ],
+      },
     });
 
     const result = await getMessageStatusTool.coreAction(
@@ -73,7 +77,11 @@ describe("layerzero_get_message_status", () => {
   it("returns FAILED status", async () => {
     mockFetch({
       status: 200,
-      body: { messages: [{ guid: "0xabc", srcTxHash: "0xtx2", srcEid: 30316, dstEid: 30101, status: "FAILED" }] },
+      body: {
+        messages: [
+          { guid: "0xabc", srcTxHash: "0xtx2", srcEid: 30316, dstEid: 30101, status: "FAILED" },
+        ],
+      },
     });
 
     const result = await getMessageStatusTool.coreAction(
@@ -133,7 +141,13 @@ describe("layerzero_get_message_status", () => {
   it("accepts guid as lookup key", async () => {
     mockFetch({
       status: 200,
-      body: { guid: "0xmyguid", srcTxHash: "0xtx99", srcEid: 30316, dstEid: 30101, status: "DELIVERED" },
+      body: {
+        guid: "0xmyguid",
+        srcTxHash: "0xtx99",
+        srcEid: 30316,
+        dstEid: 30101,
+        status: "DELIVERED",
+      },
     });
 
     const result = await getMessageStatusTool.coreAction(
@@ -147,7 +161,10 @@ describe("layerzero_get_message_status", () => {
 
   it("shouldSecondaryAction returns false for status result", async () => {
     const fakeResult = { success: true, status: "DELIVERED" };
-    const should = await getMessageStatusTool.shouldSecondaryAction(fakeResult as never, makeContext());
+    const should = await getMessageStatusTool.shouldSecondaryAction(
+      fakeResult as never,
+      makeContext()
+    );
     expect(should).toBe(false);
   });
 });

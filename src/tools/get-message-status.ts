@@ -101,7 +101,7 @@ export class GetMessageStatusTool extends BaseTool<GetMessageStatusInput, GetMes
 
       const trackingUrl = args.srcTxHash
         ? `https://layerzeroscan.com/tx/${args.srcTxHash}`
-        : `https://layerzeroscan.com/`;
+        : "https://layerzeroscan.com/";
 
       const res = await fetchWithRetry(apiUrl);
 
@@ -126,7 +126,7 @@ export class GetMessageStatusTool extends BaseTool<GetMessageStatusInput, GetMes
 
       // API returns { messages: [...] } for list queries, or a single object for GUID lookup
       // biome-ignore lint/suspicious/noExplicitAny: external API response
-      const messages: any[] = Array.isArray(data) ? data : data.messages ?? [data];
+      const messages: any[] = Array.isArray(data) ? data : (data.messages ?? [data]);
 
       if (messages.length === 0) {
         return { success: true, status: "UNKNOWN", message: null, trackingUrl };
@@ -165,16 +165,10 @@ export class GetMessageStatusTool extends BaseTool<GetMessageStatusInput, GetMes
   override async shouldSecondaryAction(
     coreResult: GetMessageStatusResult | GetMessageStatusError
   ): Promise<boolean> {
-    return (
-      typeof coreResult === "object" && coreResult !== null && "transaction" in coreResult
-    );
+    return typeof coreResult === "object" && coreResult !== null && "transaction" in coreResult;
   }
 
-  async secondaryAction(
-    payload: never,
-    _client: Client,
-    _context: Context
-  ): Promise<never> {
+  async secondaryAction(payload: never, _client: Client, _context: Context): Promise<never> {
     return payload;
   }
 }

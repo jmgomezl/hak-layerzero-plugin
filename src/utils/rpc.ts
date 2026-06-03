@@ -7,8 +7,7 @@ import { NETWORK_DEFAULTS, readNetwork } from "../networks.js";
  *   ctxConfig > env vars > network defaults
  */
 export function resolveConfig(ctxConfig: LayerZeroConfig | undefined): Required<LayerZeroConfig> {
-  const network =
-    ctxConfig?.network ?? readNetwork(process.env.LAYERZERO_NETWORK) ?? "mainnet";
+  const network = ctxConfig?.network ?? readNetwork(process.env.LAYERZERO_NETWORK) ?? "mainnet";
   const defaults = NETWORK_DEFAULTS[network];
 
   return {
@@ -19,10 +18,7 @@ export function resolveConfig(ctxConfig: LayerZeroConfig | undefined): Required<
       defaults.endpointAddress,
     endpointId: ctxConfig?.endpointId ?? defaults.endpointId,
     rpcUrl: ctxConfig?.rpcUrl ?? process.env.HEDERA_RPC_URL ?? defaults.rpcUrl,
-    scanApiUrl:
-      ctxConfig?.scanApiUrl ??
-      process.env.LAYERZERO_SCAN_API_URL ??
-      defaults.scanApiUrl,
+    scanApiUrl: ctxConfig?.scanApiUrl ?? process.env.LAYERZERO_SCAN_API_URL ?? defaults.scanApiUrl,
     privateKey: ctxConfig?.privateKey ?? process.env.HEDERA_PRIVATE_KEY ?? "",
   };
 }

@@ -9,7 +9,9 @@ const GetSupportedChainsSchema = z.object({
   filter: z
     .string()
     .optional()
-    .describe("Optional name filter — returns only chains whose name contains this string (case-insensitive)"),
+    .describe(
+      "Optional name filter — returns only chains whose name contains this string (case-insensitive)"
+    ),
   network: z
     .enum(["mainnet", "testnet"])
     .optional()
@@ -91,16 +93,10 @@ export class GetSupportedChainsTool extends BaseTool<
   override async shouldSecondaryAction(
     coreResult: GetSupportedChainsResult | GetSupportedChainsError
   ): Promise<boolean> {
-    return (
-      typeof coreResult === "object" && coreResult !== null && "transaction" in coreResult
-    );
+    return typeof coreResult === "object" && coreResult !== null && "transaction" in coreResult;
   }
 
-  async secondaryAction(
-    payload: never,
-    _client: Client,
-    _context: Context
-  ): Promise<never> {
+  async secondaryAction(payload: never, _client: Client, _context: Context): Promise<never> {
     return payload;
   }
 }

@@ -20,9 +20,7 @@ const SendMessageSchema = z.object({
     .int()
     .positive()
     .describe("LayerZero endpoint ID of the destination chain (e.g. 30101 for Ethereum mainnet)"),
-  receiver: z
-    .string()
-    .describe("Receiver address on the destination chain — EVM 0x address"),
+  receiver: z.string().describe("Receiver address on the destination chain — EVM 0x address"),
   message: z
     .string()
     .describe("Message payload as a hex string (e.g. '0x68656c6c6f') or UTF-8 string"),
@@ -127,9 +125,10 @@ export class SendMessageTool extends BaseTool<SendMessageInput, SendMessageInput
       let nativeFee = args.nativeFee;
       if (!nativeFee) {
         const endpoint = new ethers.Contract(config.endpointAddress, ENDPOINT_V2_ABI, provider);
-        const receiver = args.receiver.startsWith("0x") && args.receiver.length === 66
-          ? args.receiver
-          : addressToBytes32(args.receiver);
+        const receiver =
+          args.receiver.startsWith("0x") && args.receiver.length === 66
+            ? args.receiver
+            : addressToBytes32(args.receiver);
 
         const fee = await endpoint.quote(
           {
@@ -181,12 +180,9 @@ export class SendMessageTool extends BaseTool<SendMessageInput, SendMessageInput
       const { transaction, extras } = payload;
       const oapp = new ethers.Contract(transaction.oappAddress, OAPP_SEND_ABI, transaction.signer);
 
-      const tx = await oapp.send(
-        transaction.dstEid,
-        transaction.message,
-        transaction.options,
-        { value: BigInt(transaction.nativeFee) }
-      );
+      const tx = await oapp.send(transaction.dstEid, transaction.message, transaction.options, {
+        value: BigInt(transaction.nativeFee),
+      });
 
       const receipt = await tx.wait();
 
@@ -195,7 +191,9 @@ export class SendMessageTool extends BaseTool<SendMessageInput, SendMessageInput
       let nonce: number | undefined;
       for (const log of receipt?.logs ?? []) {
         // PacketSent event topic: keccak256("PacketSent(bytes,bytes,address)")
-        if (log.topics?.[0] === "0x1ab700d4ced0c005b164c0f789fd09fcb90cf7e32c56bc9d5ab3d85f3710fed7") {
+        if (
+          log.topics?.[0] === "0x1ab700d4ced0c005b164c0f789fd09fcb90cf7e32c56bc9d5ab3d85f3710fed7"
+        ) {
           // GUID is the first 32 bytes of the packet payload — parsing is OApp-specific
           // Provide the raw txHash for tracking instead
           break;
