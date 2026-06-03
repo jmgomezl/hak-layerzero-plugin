@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import type { ethers } from "ethers";
 import { describe, expect, it, vi } from "vitest";
 import { sendMessageTool } from "../src/tools/send-message.js";
 
@@ -74,7 +74,10 @@ describe("layerzero_send_message", () => {
     if ("success" in result && result.success === false) return;
     expect(result).toHaveProperty("transaction");
     expect(result).toHaveProperty("extras");
-    const payload = result as { transaction: { oappAddress: string; dstEid: number }; extras: { dstEid: number } };
+    const payload = result as {
+      transaction: { oappAddress: string; dstEid: number };
+      extras: { dstEid: number };
+    };
     expect(payload.transaction.oappAddress).toBe("0x1234567890123456789012345678901234567890");
     expect(payload.transaction.dstEid).toBe(30101);
     expect(payload.extras.dstEid).toBe(30101);
@@ -102,8 +105,21 @@ describe("layerzero_send_message", () => {
 
   it("shouldSecondaryAction returns true for payload with transaction", async () => {
     const payload = {
-      transaction: { oappAddress: "0x1234", dstEid: 30101, message: "0x01", options: "0x00", nativeFee: "100", signer: {} },
-      extras: { dstEid: 30101, receiver: "0xabc", network: "mainnet", sourceEid: 30316, estimatedFeeHbar: "0.001" },
+      transaction: {
+        oappAddress: "0x1234",
+        dstEid: 30101,
+        message: "0x01",
+        options: "0x00",
+        nativeFee: "100",
+        signer: {},
+      },
+      extras: {
+        dstEid: 30101,
+        receiver: "0xabc",
+        network: "mainnet",
+        sourceEid: 30316,
+        estimatedFeeHbar: "0.001",
+      },
     };
     const should = await sendMessageTool.shouldSecondaryAction(payload as never, makeContext());
     expect(should).toBe(true);
@@ -134,7 +150,11 @@ describe("layerzero_send_message", () => {
       },
     };
 
-    const result = await sendMessageTool.secondaryAction(payload as never, fakeClient, makeContext());
+    const result = await sendMessageTool.secondaryAction(
+      payload as never,
+      fakeClient,
+      makeContext()
+    );
 
     expect(result.success).toBe(true);
     if (!result.success) return;

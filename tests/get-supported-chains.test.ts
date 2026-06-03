@@ -21,7 +21,11 @@ describe("layerzero_get_supported_chains", () => {
     expect(result.sourceEid).toBe(LAYERZERO_MAINNET.endpointId);
     expect(result.total).toBe(KNOWN_DESTINATION_CHAINS.length);
     expect(result.chains.length).toBe(KNOWN_DESTINATION_CHAINS.length);
-    expect(result.chains[0]).toMatchObject({ name: expect.any(String), eid: expect.any(Number), network: "mainnet" });
+    expect(result.chains[0]).toMatchObject({
+      name: expect.any(String),
+      eid: expect.any(Number),
+      network: "mainnet",
+    });
   });
 
   it("returns testnet EIDs when network=testnet", async () => {
@@ -79,7 +83,10 @@ describe("layerzero_get_supported_chains", () => {
 
   it("shouldSecondaryAction returns false for query result", async () => {
     const result = await getSupportedChainsTool.coreAction({}, makeContext(), fakeClient);
-    const should = await getSupportedChainsTool.shouldSecondaryAction(result as never, makeContext());
+    const should = await getSupportedChainsTool.shouldSecondaryAction(
+      result as never,
+      makeContext()
+    );
     expect(should).toBe(false);
   });
 });

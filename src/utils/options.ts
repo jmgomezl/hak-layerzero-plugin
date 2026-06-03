@@ -12,7 +12,7 @@ export interface LzOptions {
  * EndpointV2.quote() and OApp.send(). Uses lzReceive option type 1.
  */
 export function buildOptions(opts: LzOptions): string {
-  let builder = Options.newOptions().addExecutorLzReceiveOption(
+  const builder = Options.newOptions().addExecutorLzReceiveOption(
     Number(opts.gasLimit),
     Number(opts.value ?? 0n)
   );

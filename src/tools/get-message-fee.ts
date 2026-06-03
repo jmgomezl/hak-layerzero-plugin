@@ -28,7 +28,9 @@ const GetMessageFeeSchema = z.object({
   payInLzToken: z
     .boolean()
     .default(false)
-    .describe("Whether to pay the LayerZero fee in ZRO token instead of native gas. Default: false"),
+    .describe(
+      "Whether to pay the LayerZero fee in ZRO token instead of native gas. Default: false"
+    ),
 });
 
 type GetMessageFeeInput = z.infer<typeof GetMessageFeeSchema>;
@@ -76,9 +78,10 @@ export class GetMessageFeeTool extends BaseTool<GetMessageFeeInput, GetMessageFe
       const provider = getProvider(config.rpcUrl);
       const endpoint = new ethers.Contract(config.endpointAddress, ENDPOINT_V2_ABI, provider);
 
-      const receiver = args.receiver.startsWith("0x") && args.receiver.length === 66
-        ? args.receiver
-        : addressToBytes32(args.receiver);
+      const receiver =
+        args.receiver.startsWith("0x") && args.receiver.length === 66
+          ? args.receiver
+          : addressToBytes32(args.receiver);
 
       const message = args.message.startsWith("0x")
         ? args.message
@@ -116,16 +119,10 @@ export class GetMessageFeeTool extends BaseTool<GetMessageFeeInput, GetMessageFe
   override async shouldSecondaryAction(
     coreResult: GetMessageFeeResult | GetMessageFeeError
   ): Promise<boolean> {
-    return (
-      typeof coreResult === "object" && coreResult !== null && "transaction" in coreResult
-    );
+    return typeof coreResult === "object" && coreResult !== null && "transaction" in coreResult;
   }
 
-  async secondaryAction(
-    payload: never,
-    _client: Client,
-    _context: Context
-  ): Promise<never> {
+  async secondaryAction(payload: never, _client: Client, _context: Context): Promise<never> {
     return payload;
   }
 }

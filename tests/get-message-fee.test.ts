@@ -85,9 +85,12 @@ describe("layerzero_get_message_fee", () => {
 
   it("returns error when RPC call throws", async () => {
     const { ethers: mockEthers } = await import("ethers");
-    vi.mocked(mockEthers.Contract).mockImplementationOnce(() => ({
-      quote: vi.fn().mockRejectedValue(new Error("RPC connection refused")),
-    }) as never);
+    vi.mocked(mockEthers.Contract).mockImplementationOnce(
+      () =>
+        ({
+          quote: vi.fn().mockRejectedValue(new Error("RPC connection refused")),
+        }) as never
+    );
 
     const result = await getMessageFeeTool.coreAction(
       {
@@ -108,7 +111,10 @@ describe("layerzero_get_message_fee", () => {
 
   it("shouldSecondaryAction returns false for fee result", async () => {
     const fakeResult = { success: true, nativeFee: "100" };
-    const should = await getMessageFeeTool.shouldSecondaryAction(fakeResult as never, makeContext());
+    const should = await getMessageFeeTool.shouldSecondaryAction(
+      fakeResult as never,
+      makeContext()
+    );
     expect(should).toBe(false);
   });
 });
